@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://eureka-service:8761/eureka
+  instance:
+    hostname: localhost
+
+    spring:
+      cloud:
+        gateway:
+          discovery:
+            locator:
+              enabled: true
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: "*"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - "*"
+          routes:
+            - id: desc-cf-service
+              uri: lb://desc-cf-service
+              predicates:
+                - Path=/desccf/**
+            - id: desc-de-service
+              uri: lb://desc-de-service
+              predicates:
+                - Path=/descde/**
+            - id: desc-np-service
+              uri: lb://desc-np-service
+              predicates:
+                - Path=/descnp/**
+            - id: rack-service
+              uri: lb://rack-service
+              predicates:
+                - Path=/rack/**
+            - id: reportes-service
+              uri: lb://reportes-service
+              predicates:
+                - Path=/reportes/**
+            - id: reservas-comprobantes-service
+              uri: lb://reservas-comprobantes-service
+              predicates:
+                - Path=/reservas/**
+            - id: tarifas-service
+              uri: lb://tarifas-service
+              predicates:
+                - Path=/tarifas/**
