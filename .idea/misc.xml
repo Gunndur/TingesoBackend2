@@ -11,6 +11,16 @@
         <option value="$PROJECT_DIR$/tarifas/pom.xml" />
         <option value="$PROJECT_DIR$/reportes/pom.xml" />
         <option value="$PROJECT_DIR$/reservasComprobantes/pom.xml" />
+        <option value="$PROJECT_DIR$/config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/desc-cf-service/pom.xml" />
+        <option value="$PROJECT_DIR$/desc-de-service/pom.xml" />
+        <option value="$PROJECT_DIR$/desc-np-service/pom.xml" />
+        <option value="$PROJECT_DIR$/rack-service/pom.xml" />
+        <option value="$PROJECT_DIR$/reportes-service/pom.xml" />
+        <option value="$PROJECT_DIR$/reservas-comprobantes-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tarifas-service/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-service/pom.xml" />
       </list>
     </option>
   </component>

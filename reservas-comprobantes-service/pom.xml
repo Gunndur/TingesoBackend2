@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>backend</groupId>
-	<artifactId>reservasComprobantes-service</artifactId>
+	<artifactId>reservas-comprobantes-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>reservasComprobantes</name>
 	<description>Demo project for Spring Boot</description>

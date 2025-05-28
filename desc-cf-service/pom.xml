@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>backend</groupId>
-	<artifactId>descCF-service</artifactId>
+	<artifactId>desc-cf-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>descCF</name>
 	<description>Demo project for Spring Boot</description>
