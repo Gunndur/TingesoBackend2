@@ -1,6 +1,7 @@
-package backend.descNP.controller;
+package backend.tarifas.controller;
 
-import backend.descNP.service.DescNpService;
+
+import backend.tarifas.service.TarifasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,16 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/descnp")
-public class DescNpController {
+@RequestMapping("/tarifas")
+public class TarifasController {
+
     @Autowired
-    DescNpService descNpService;
+    TarifasService tarifasService;
 
     @GetMapping("/")
-    public ResponseEntity<Double> descCf(
-            @RequestParam int numberOfPeople
+    public ResponseEntity<Double> totalCost(
+            @RequestParam int fee1
     ) {
-        double descNp = descNpService.getDiscountByNumberOfPeople(numberOfPeople);
-        return ResponseEntity.ok(descNp);
+        double fee2 = tarifasService.getFee(fee1);
+        return ResponseEntity.ok(fee2);
     }
 }

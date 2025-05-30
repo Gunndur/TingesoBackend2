@@ -1,4 +1,4 @@
-package backend.reservasComprobantes.entity;
+package backend.reservasComprobantes.controller;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "reservas")
+@Table(name = "boletas")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservasEntity {
+public class ComprobantesController {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)

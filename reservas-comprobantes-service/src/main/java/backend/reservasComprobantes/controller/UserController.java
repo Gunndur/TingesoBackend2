@@ -1,4 +1,4 @@
 package backend.reservasComprobantes.controller;
 
-public class ReservasComprobantesController {
+public class UserController {
 }
