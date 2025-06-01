@@ -7,6 +7,7 @@ import backend.reservasComprobantes.repository.ReservasRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class ReservasService {
     UserService userService;
     @Autowired
     ComprobantesService comprobantesService;
+    @Autowired
+    RestTemplate restTemplate;
 
     public ArrayList<ReservasEntity> getAllReservas(){
         return (ArrayList<ReservasEntity>) reservasRepository.findAll();
@@ -75,12 +78,8 @@ public class ReservasService {
                 comprobante.setUserRut(user.getRut());
                 comprobante.setTime_final(body.getTime_final());
                 comprobante.setIdReserva(body.getId());
-
-
-                //comprobante = officeKRmService.setBestDiscountInReserva(comprobante, body);
-                //comprobante = officeKRmService.setPrices(comprobante);
-
-
+                comprobante = setBestDiscountInComprobante(comprobante, body);
+                comprobante = comprobantesService.setPrices(comprobante);
                 comprobantesService.saveComprobante(comprobante);
             }
         }
@@ -135,19 +134,13 @@ public class ReservasService {
     // Encontrar el mejor descuento para cada comprobante y asignarlo al comprobante correspondiente
     public ComprobantesEntity setBestDiscountInComprobante(ComprobantesEntity comprobante, ReservasEntity reservas) {
 
+        int numberOfPeople = reservas.getNumberOfPeople();
+        String url1 = "http://desc-np-service/descnp/?numberOfPeople=" + numberOfPeople;
 
-        double discount1 = 0;
-        double discount2 = 0;
-        double discount3 = 0;
-        double discount4 = 0;
-        /* LLAMAR A CADA MICROSERVICIO PARA OBTENER LOS DESCUENTOS
-
-        double discount1 = getDiscountByNumberOfPeople(reservas); // [1]
-        double discount2 = getDiscountByFrequentCustomer(comprobante); // [2]
-        double discount3 = getDiscountBySpecialRateWeekend(comprobante); // [3]
-        double discount4 = isUserBirthday(comprobante); // [4]
-        */
-
+        double discount1 = restTemplate.getForObject(url1, Double.class);  // [1]
+        double discount2 = comprobantesService.getDiscountByFrequentCustomer(comprobante); // [2]
+        double discount3 = comprobantesService.getDiscountBySpecialRateWeekend(comprobante); // [3]
+        double discount4 = comprobantesService.isUserBirthday(comprobante); // [4]
 
         if (discount1 > discount2 && discount1 > discount3 && discount1 > discount4) {
             comprobante.setMaxDesc(discount1);

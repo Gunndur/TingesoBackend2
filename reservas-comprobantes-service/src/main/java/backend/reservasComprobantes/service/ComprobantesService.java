@@ -5,6 +5,7 @@ import backend.reservasComprobantes.entity.UserEntity;
 import backend.reservasComprobantes.repository.ComprobantesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +21,8 @@ public class ComprobantesService {
     ComprobantesService comprobantesService;
     @Autowired
     UserService userService;
+    @Autowired
+    RestTemplate restTemplate;
 
     public ArrayList<ComprobantesEntity> getAllComprobantes(){
         return (ArrayList<ComprobantesEntity>) comprobanteRepository.findAll();
@@ -60,16 +63,20 @@ public class ComprobantesService {
         UserEntity user = userService.getUserByRut(comprobante.getUserRut());
         userService.updateFrequentUser(user.getRut());
 
-        // LLamar al microservicio desccf/ para obtener el descuento
+        int frequent = user.getFrequent();
+        String url = "http://desc-cf-service/desccf/?frequent=" + frequent;
+        discount = restTemplate.getForObject(url, Double.class);
+
         return discount;
     }
 
     // Cálculo descuento por tarifa especial sab-dom [3]
     public double getDiscountBySpecialRateWeekend(ComprobantesEntity comprobante) {
         double discount = 0;
-        LocalDate comprobanteDay = comprobante.getDate();
+        LocalDate date = comprobante.getDate();
+        String url = "http://desc-de-service/descde/SpecialRateWeekend?date=" + date;
+        discount = restTemplate.getForObject(url, Double.class);
 
-        // LLamar al microservicio descde/SpecialRateWeekend para obtener el descuento
         return discount;
     }
 
@@ -77,25 +84,27 @@ public class ComprobantesService {
     public double isUserBirthday(ComprobantesEntity comprobante) {
         UserEntity user = userService.getUserByRut(comprobante.getUserRut());
         double discount = 0;
-
         if (user != null && user.getBirthdate() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate birthday = LocalDate.parse(user.getBirthdate(), formatter);
-            LocalDate bookingDate = comprobante.getDate();
+            LocalDate reservaDate = comprobante.getDate();
 
-            // LLamar al microservicio descde/UserBirthday para obtener el descuento
+            String url = "http://desc-de-service/descde/UserBirthday?birthday=" + birthday + "&reservaDate=" + reservaDate;
+            discount = restTemplate.getForObject(url, Double.class);
         }
         return discount;
     }
 
     //Calcular precios varios para cada comprobante
     public ComprobantesEntity setPrices(ComprobantesEntity comprobante) {
-        double fee = comprobante.getFee();
+        int fee = comprobante.getFee();
+        double fee2 = 0;
 
-        // LLamar al microservicio trifas/
+        String url = "http://tarifas-service/tarifas/?fee1=" + fee;
+        fee2 = restTemplate.getForObject(url, Double.class);
 
         double discount = comprobante.getMaxDesc();
-        double amount = fee - (fee * discount);
+        double amount = fee2 - (fee2 * discount);
         double total = amount + (amount * 0.19);
 
         comprobante.setAmount(amount);
