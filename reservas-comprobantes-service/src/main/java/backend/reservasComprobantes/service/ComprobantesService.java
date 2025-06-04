@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +23,16 @@ public class ComprobantesService {
     RestTemplate restTemplate;
 
     public ComprobantesEntity saveComprobante(ComprobantesEntity comprobante) {return comprobanteRepository.save(comprobante);}
+
+    // Reportes
+    public ArrayList<ComprobantesEntity> getAllReceiptByFeeAndMonth(int fee, int month){
+        return (ArrayList<ComprobantesEntity>) comprobanteRepository.findByFeeAndMonth(fee, month);
+    }
+
+    public ArrayList<ComprobantesEntity> getAllReceiptByGroupSizeAndMonth(int groupSize, int month) {
+        return (ArrayList<ComprobantesEntity>) comprobanteRepository.findByGroupSizeAndMonth(groupSize, month);
+    }
+    //
 
     public List<ComprobantesEntity> getComprobanteByIdReserva(long idReserva) {
         return (List<ComprobantesEntity>) comprobanteRepository.findByIdReserva(idReserva);

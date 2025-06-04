@@ -22,4 +22,17 @@ public class ComprobantesController {
         List<ComprobantesEntity> comprobantes = comprobantesService.getComprobanteByIdReserva(id);
         return ResponseEntity.ok(comprobantes);
     }
+
+    // Reportes
+    @GetMapping("/fee/{fee}/month/{month}")
+    public ResponseEntity<List<ComprobantesEntity>> getReceiptsByFeeAndMonth(@PathVariable int fee, @PathVariable int month) {
+        List<ComprobantesEntity> comprobantes = comprobantesService.getAllReceiptByFeeAndMonth(fee, month);
+        return ResponseEntity.ok(comprobantes);
+    }
+
+    @GetMapping("/groupSize/{groupSize}/month/{month}")
+    public ResponseEntity<List<ComprobantesEntity>> getReceiptsByGroupSizeAndMonth(@PathVariable int groupSize, @PathVariable int month) {
+        List<ComprobantesEntity> comprobantes = comprobantesService.getAllReceiptByGroupSizeAndMonth(groupSize, month);
+        return ResponseEntity.ok(comprobantes);
+    }
 }
