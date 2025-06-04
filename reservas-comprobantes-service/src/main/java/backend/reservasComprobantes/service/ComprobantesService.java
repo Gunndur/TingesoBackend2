@@ -24,6 +24,8 @@ public class ComprobantesService {
     @Autowired
     RestTemplate restTemplate;
 
+    /*   Se usaban para los test.
+
     public ArrayList<ComprobantesEntity> getAllComprobantes(){
         return (ArrayList<ComprobantesEntity>) comprobanteRepository.findAll();
     }
@@ -37,6 +39,8 @@ public class ComprobantesService {
     public ComprobantesEntity getComprobanteById(long id) {
         return comprobanteRepository.findById(id).orElse(null);
     }
+    */
+
 
     public ComprobantesEntity saveComprobante(ComprobantesEntity comprobante) {return comprobanteRepository.save(comprobante);}
 
@@ -100,7 +104,7 @@ public class ComprobantesService {
         int fee = comprobante.getFee();
         double fee2 = 0;
 
-        String url = "http://tarifas-service/tarifas/?fee1=" + fee;
+        String url = "http://tarifas-service/tarifas/fee?fee1=" + fee;
         fee2 = restTemplate.getForObject(url, Double.class);
 
         double discount = comprobante.getMaxDesc();

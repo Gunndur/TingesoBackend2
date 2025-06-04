@@ -106,12 +106,16 @@ public class ReservasService {
         int fee = reserva.getFee();
         LocalTime startTime = reserva.getTime();
 
-        if (fee == 1) {
-            reserva.setTime_final(startTime.plusMinutes(30));
-        } else if (fee == 2) {
-            reserva.setTime_final(startTime.plusMinutes(35));
-        } else if (fee == 3) {
-            reserva.setTime_final(startTime.plusMinutes(40));
+        String url = "http://tarifas-service/tarifas/time?fee=" + fee;
+        Integer time = null;
+        try {
+            time = restTemplate.getForObject(url, Integer.class);
+            if (time == null) {
+                throw new IllegalStateException("El servicio de tarifas devolvió null por el tiempo.");
+            }
+            reserva.setTime_final(startTime.plusMinutes(time));
+        } catch (Exception e) {
+            System.out.println("Error al obtener el tiempo final: " + e.getMessage());
         }
         return;
     }
@@ -135,9 +139,15 @@ public class ReservasService {
     public ComprobantesEntity setBestDiscountInComprobante(ComprobantesEntity comprobante, ReservasEntity reservas) {
 
         int numberOfPeople = reservas.getNumberOfPeople();
-        String url1 = "http://desc-np-service/descnp/?numberOfPeople=" + numberOfPeople;
+        String url = "http://desc-np-service/descnp/?numberOfPeople=" + numberOfPeople;
 
-        double discount1 = restTemplate.getForObject(url1, Double.class);  // [1]
+        double discount1 = 0.0; // [1]
+        try {
+            Double response = restTemplate.getForObject(url, Double.class);
+            discount1 = response != null ? response : 0.0;
+        } catch (Exception e) {
+            System.out.println("Error al obtener el descuento por número de personas: " + e.getMessage());
+        }
         double discount2 = comprobantesService.getDiscountByFrequentCustomer(comprobante); // [2]
         double discount3 = comprobantesService.getDiscountBySpecialRateWeekend(comprobante); // [3]
         double discount4 = comprobantesService.isUserBirthday(comprobante); // [4]

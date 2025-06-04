@@ -49,10 +49,18 @@ eureka:
               uri: lb://reportes-service
               predicates:
                 - Path=/reportes/**
-            - id: reservas-comprobantes-service
+            - id: reservas-comprobantes-service-users
+              uri: lb://reservas-comprobantes-service
+              predicates:
+                - Path=/user/**
+            - id: reservas-comprobantes-service-bookings
               uri: lb://reservas-comprobantes-service
               predicates:
                 - Path=/reservas/**
+            - id: reservas-comprobantes-service-receipts
+              uri: lb://reservas-comprobantes-service
+              predicates:
+                - Path=/comprobantes/**
             - id: tarifas-service
               uri: lb://tarifas-service
               predicates:

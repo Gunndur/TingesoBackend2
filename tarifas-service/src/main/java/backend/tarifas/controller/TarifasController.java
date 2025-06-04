@@ -16,11 +16,19 @@ public class TarifasController {
     @Autowired
     TarifasService tarifasService;
 
-    @GetMapping("/")
+    @GetMapping("/fee")
     public ResponseEntity<Double> totalCost(
             @RequestParam int fee1
     ) {
         double fee2 = tarifasService.getFee(fee1);
         return ResponseEntity.ok(fee2);
+    }
+
+    @GetMapping("/time")
+    public ResponseEntity<Integer> plusMn(
+            @RequestParam int fee
+    ) {
+        int time = tarifasService.getFinalTime(fee);
+        return ResponseEntity.ok(time);
     }
 }
