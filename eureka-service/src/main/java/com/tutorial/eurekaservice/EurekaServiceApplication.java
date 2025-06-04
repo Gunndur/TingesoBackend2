@@ -1,4 +1,4 @@
-package backend.eureka_service;
+package com.tutorial.eurekaservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
