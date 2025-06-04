@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,34 +17,14 @@ public class ComprobantesService {
     @Autowired
     ComprobantesRepository comprobanteRepository;
     @Autowired
-    ComprobantesService comprobantesService;
-    @Autowired
     UserService userService;
     @Autowired
     RestTemplate restTemplate;
 
-    /*   Se usaban para los test.
-
-    public ArrayList<ComprobantesEntity> getAllComprobantes(){
-        return (ArrayList<ComprobantesEntity>) comprobanteRepository.findAll();
-    }
-
-    public ArrayList<ComprobantesEntity> getAllComprobanteByFee(int fee){
-        return (ArrayList<ComprobantesEntity>) comprobanteRepository.findByFee(fee);
-    }
-    public ArrayList<ComprobantesEntity> getAllComprobanteByFeeAndMonth(int fee, int month){
-        return (ArrayList<ComprobantesEntity>) comprobanteRepository.findByFeeAndMonth(fee, month);
-    }
-    public ComprobantesEntity getComprobanteById(long id) {
-        return comprobanteRepository.findById(id).orElse(null);
-    }
-    */
-
-
     public ComprobantesEntity saveComprobante(ComprobantesEntity comprobante) {return comprobanteRepository.save(comprobante);}
 
     public List<ComprobantesEntity> getComprobanteByIdReserva(long idReserva) {
-        return (List<ComprobantesEntity>) comprobanteRepository.findByReserva(idReserva);
+        return (List<ComprobantesEntity>) comprobanteRepository.findByIdReserva(idReserva);
     }
 
     public List<ComprobantesEntity> getComprobanteByUserRut(String userRut) {
@@ -65,7 +44,7 @@ public class ComprobantesService {
     public double getDiscountByFrequentCustomer(ComprobantesEntity comprobante) {
         double discount = 0;
         UserEntity user = userService.getUserByRut(comprobante.getUserRut());
-        userService.updateFrequentUser(user.getRut());
+        updateFrequentUser(user.getRut());
 
         int frequent = user.getFrequent();
         String url = "http://desc-cf-service/desccf/?frequent=" + frequent;
@@ -115,6 +94,37 @@ public class ComprobantesService {
         comprobante.setIVA(0.19);
         comprobante.setFinalAmount(total);
 
-        return comprobantesService.saveComprobante(comprobante);
+        return saveComprobante(comprobante);
+    }
+
+    //Calcula la frecuencia de un usuario, buscando la cantidad de reservas asociadas a su correo dentro del mes actual.
+    public UserEntity updateFrequentUser(String rut) {
+        UserEntity user = userService.findByRut(rut);
+        String userRut = user.getRut();
+        int count = 0;
+        int frequent = 0;
+        LocalDate currentDate = LocalDate.now();
+        int currentYear = currentDate.getYear();
+        int currentMonth = currentDate.getMonthValue();
+
+        for (ComprobantesEntity comprobante : getComprobanteByUserRut(userRut)) {
+            LocalDate comprobanteDate = comprobante.getDate();
+            if (comprobanteDate.getYear() == currentYear && comprobanteDate.getMonthValue() == currentMonth) {
+                count++;
+            }
+        }
+
+        if (count >= 0 && count <= 1) {
+            frequent = 0;
+        } else if (count >= 2 && count <= 4) {
+            frequent = 1;
+        } else if (count >= 5 && count <= 6) {
+            frequent = 2;
+        } else if (count >= 7) {
+            frequent = 3;
+        }
+
+        user.setFrequent(frequent);
+        return userService.saveUser(user);
     }
 }
