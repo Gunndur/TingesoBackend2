@@ -11,7 +11,7 @@
 	<groupId>backend</groupId>
 	<artifactId>reportes-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>reportes</name>
+	<name>reportes-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

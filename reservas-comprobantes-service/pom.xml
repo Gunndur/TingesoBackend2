@@ -11,7 +11,7 @@
 	<groupId>backend</groupId>
 	<artifactId>reservas-comprobantes-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>reservasComprobantes</name>
+	<name>reservas-comprobantes-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

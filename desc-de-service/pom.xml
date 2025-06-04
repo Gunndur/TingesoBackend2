@@ -11,7 +11,7 @@
 	<groupId>backend</groupId>
 	<artifactId>desc-de-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>descDE</name>
+	<name>desc-de-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

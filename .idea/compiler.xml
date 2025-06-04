@@ -8,31 +8,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
+        <module name="config-server" />
         <module name="gateway-service" />
       </profile>
-      <profile name="Annotation profile for tarifas" enabled="true">
+      <profile name="Annotation profile for tarifas-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="tarifas-service" />
         <module name="reportes-service" />
-      </profile>
-      <profile name="Annotation profile for rack" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
         <module name="rack-service" />
-        <module name="desc-cf-service" />
         <module name="desc-de-service" />
         <module name="desc-np-service" />
         <module name="reservas-comprobantes-service" />
+        <module name="tarifas-service" />
+        <module name="desc-cf-service" />
       </profile>
     </annotationProcessing>
   </component>

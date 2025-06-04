@@ -11,7 +11,7 @@
 	<groupId>backend</groupId>
 	<artifactId>desc-np-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>descNP</name>
+	<name>desc-np-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
