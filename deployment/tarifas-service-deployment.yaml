@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tarifas-service-deployment
+  labels:
+    app: tarifas-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tarifas-service
+  template:
+    metadata:
+      labels:
+        app: tarifas-service
+    spec:
+      containers:
+        - name: tarifas-service
+          image: tgustafsson/tarifas-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password

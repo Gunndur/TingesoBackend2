@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desc-de-service-deployment
+  labels:
+    app: desc-de-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desc-de-service
+  template:
+    metadata:
+      labels:
+        app: desc-de-service
+    spec:
+      containers:
+        - name: desc-de-service
+          image: tgustafsson/desc-de-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desc-np-service-deployment
+  labels:
+    app: desc-np-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desc-np-service
+  template:
+    metadata:
+      labels:
+        app: desc-np-service
+    spec:
+      containers:
+        - name: desc-np-service
+          image: tgustafsson/desc-np-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password

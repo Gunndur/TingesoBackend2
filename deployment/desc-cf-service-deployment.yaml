@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desc-cf-service-deployment
+  labels:
+    app: desc-cf-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desc-cf-service
+  template:
+    metadata:
+      labels:
+        app: desc-cf-service
+    spec:
+      containers:
+        - name: desc-cf-service
+          image: tgustafsson/desc-cf-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: db-password
