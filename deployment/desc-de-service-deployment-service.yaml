@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desc-de-service-deployment
+  labels:
+    app: desc-de-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: desc-de-service-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: desc-de-service-deployment
+    spec:
+      containers:
+        - name: desc-de-service
+          image: tgustafsson/desc-de-service:latest
+          ports:
+            - containerPort: 8094
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_DESC_DE
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_DESC_DE
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_DESC_DE
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER_DESC_DE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD_DESC_DE

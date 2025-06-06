@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservas-comprobantes-service-deployment
+  labels:
+    app: reservas-comprobantes-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: reservas-comprobantes-service-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: reservas-comprobantes-service-deployment
+    spec:
+      containers:
+        - name: reservas-comprobantes-service
+          image: tgustafsson/reservas-comprobantes-service:latest
+          ports:
+            - containerPort: 8090
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_RESERVAS_COMPROBANTES
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_RESERVAS_COMPROBANTES
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_RESERVAS_COMPROBANTES
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER_RESERVAS_COMPROBANTES
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD_RESERVAS_COMPROBANTES
