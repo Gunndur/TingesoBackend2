@@ -7,9 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="eureka-service" />
         <module name="config-server" />
-        <module name="gateway-service" />
+        <module name="eureka-server" />
+        <module name="gateway-server" />
       </profile>
       <profile name="Annotation profile for tarifas-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -27,6 +27,10 @@
         <module name="desc-cf-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-service" target="11" />
+      <module name="gateway-service" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -34,7 +38,9 @@
       <module name="desc-cf-service" options="-parameters" />
       <module name="desc-de-service" options="-parameters" />
       <module name="desc-np-service" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
       <module name="eureka-service" options="-parameters" />
+      <module name="gateway-server" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
       <module name="rack-service" options="-parameters" />
       <module name="reportes-service" options="-parameters" />
